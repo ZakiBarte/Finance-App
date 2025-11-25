@@ -2,7 +2,7 @@ import React from 'react'
 
 function Yasir() {
   return (
-    <div>Yasir</div>
+    <div>Yasir!</div>
   )
 }
 
