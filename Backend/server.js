@@ -8,13 +8,13 @@ app.use(express.json());
 app.use(cors());
 
 
-const mongo_URL = process.env.MONGO_URL;
+const mongo_URI = process.env.MONGO_URI;
   
 
 // MongoDB connection
 async function connectMongoDB() {
   try {
-    await mongoose.connect(mongo_URL);
+    await mongoose.connect(mongo_URI);
     console.log("✅ MongoDB Connected");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
