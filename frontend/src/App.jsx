@@ -27,7 +27,7 @@ function AuthLayout() {
               !isRegister ? "bg-yellow-500 text-white" : "bg-gray-200"
             }`}
           >
-            Login!
+            Login
           </button>
           <button
             onClick={() => navigate("/register")}
