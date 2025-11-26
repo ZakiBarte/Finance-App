@@ -15,7 +15,7 @@ export default function Dashboard() {
     fetchExpenses();
   }, []);
 
-  const total = expenses.reduce((sum, item) => sum + item.price, 0);
+  const total = Array.isArray(expenses) ? expenses.reduce((sum, item) => sum + (Number(item.price) || 0), 0) : 0;
 
   return (
     <div className="p-6 min-h-screen bg-background text-foreground">

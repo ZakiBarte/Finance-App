@@ -4,8 +4,8 @@ import Expense from "../models/Expense.js";
 export const getExpenses = async (req, res) => {
   try {
     const expenses = await Expense.find();
-    if (!expenses.length) return res.json({ error: "No expenses stored" });
-    res.json(expenses);
+    // Always return an array (empty if none) to simplify frontend handling
+    return res.json(expenses || []);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }

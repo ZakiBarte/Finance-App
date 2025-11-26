@@ -10,7 +10,8 @@ import {
 } from "recharts";
 
 export default function ExpenseBarChart({ data }) {
-  const formatted = data.map((item) => ({
+  const safeData = Array.isArray(data) ? data : [];
+  const formatted = safeData.map((item) => ({
     name: item.title,
     price: item.price,
   }));

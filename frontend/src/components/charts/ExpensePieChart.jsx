@@ -10,7 +10,8 @@ import {
 export default function ExpensePieChart({ data }) {
   const COLORS = ["#F59E0B", "#10B981", "#3B82F6", "#EF4444", "#8B5CF6"];
 
-  const formatted = data.map((item, index) => ({
+  const safeData = Array.isArray(data) ? data : [];
+  const formatted = safeData.map((item, index) => ({
     name: item.title,
     value: item.price,
     color: COLORS[index % COLORS.length],
