@@ -17,7 +17,7 @@ export default function Login({ onSwitch }) {
     if (user) navigate("/dashboard");
     // Clear any previous auth errors when this component mounts or user changes
     clearError();
-  }, [user, navigate]);
+  }, [user, navigate, clearError]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,6 +52,7 @@ export default function Login({ onSwitch }) {
           <button
             className="text-yellow-500 font-semibold underline"
             onClick={() => {
+              clearError();
               if (onSwitch) onSwitch();
               else navigate("/register");
             }}

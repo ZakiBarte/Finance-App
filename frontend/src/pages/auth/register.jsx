@@ -17,7 +17,7 @@ export default function Register({ onSwitch }) {
   useEffect(() => {
     if (user) navigate("/dashboard");
     clearError();
-  }, [user, navigate]);
+  }, [user, navigate, clearError]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,6 +57,7 @@ export default function Register({ onSwitch }) {
           <button
             className="text-yellow-500 font-semibold underline"
             onClick={() => {
+              clearError();
               if (onSwitch) onSwitch();
               else navigate("/login");
             }}

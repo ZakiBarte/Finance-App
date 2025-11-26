@@ -2,7 +2,10 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Register from "./pages/auth/register";
 import Login from "./pages/auth/login";
-import Dashboard from "./pages/dashboard/dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
+import ExpensesPage from "./pages/expenses/ExpensesPage";
+import ProfilePage from "./pages/profile/ProfilePage";
+import AppLayout from "./components/layout/AppLayout";
 import { useAuthStore } from "./store/authStore";
 
 function RequireAuth({ children }) {
@@ -56,14 +59,40 @@ function App() {
           <Route path="register" element={<Register />} />
         </Route>
 
-        <Route
-          path="/dashboard"
-          element={
-            <RequireAuth>
-              <Dashboard />
-            </RequireAuth>
-          }
-        />
+<Route
+  path="/dashboard"
+  element={
+    <RequireAuth>
+      <AppLayout>
+        <Dashboard />
+      </AppLayout>
+    </RequireAuth>
+  }
+/>
+
+<Route
+  path="/expenses"
+  element={
+    <RequireAuth>
+      <AppLayout>
+        <ExpensesPage />
+      </AppLayout>
+    </RequireAuth>
+  }
+/>
+
+<Route
+  path="/profile"
+  element={
+    <RequireAuth>
+      <AppLayout>
+        <ProfilePage />
+      </AppLayout>
+    </RequireAuth>
+  }
+/>
+
+
       </Routes>
     </BrowserRouter>
   );
