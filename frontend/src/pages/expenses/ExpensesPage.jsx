@@ -11,7 +11,8 @@ import {
 } from "../../components/ui/card";
 
 export default function ExpensesPage() {
-  const { expenses, fetchExpenses, addExpense, deleteExpense, updateExpense } = useExpenseStore();
+  const { expenses, fetchExpenses, addExpense, deleteExpense, updateExpense } =
+    useExpenseStore();
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
@@ -20,6 +21,7 @@ export default function ExpensesPage() {
 
   useEffect(() => {
     fetchExpenses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (e) => {
@@ -51,9 +53,22 @@ export default function ExpensesPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            <Input placeholder="Price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full rounded-md border px-3 py-2 bg-transparent">
+            <Input
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <Input
+              placeholder="Price"
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full rounded-md border px-3 py-2 bg-transparent"
+            >
               <option value="">Select category</option>
               <option value="food">Food</option>
               <option value="transport">Transport</option>
@@ -61,30 +76,52 @@ export default function ExpensesPage() {
               <option value="bills">Bills</option>
               <option value="other">Other</option>
             </select>
-            <input value={date} onChange={(e) => setDate(e.target.value)} type="date" className="w-full rounded-md border px-3 py-2 bg-transparent" />
-            <Button type="submit" className="w-full">{editingId ? "Update" : "Add"}</Button>
+            <input
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              type="date"
+              className="w-full rounded-md border px-3 py-2 bg-transparent"
+            />
+            <Button type="submit" className="w-full">
+              {editingId ? "Update" : "Add"}
+            </Button>
           </form>
         </CardContent>
       </Card>
 
-      <div className="max-w-md mx-auto space-y-3">
-          {expenses && Array.isArray(expenses) && expenses.map((expense) => (
-          <Card key={expense._id} className="flex justify-between items-center p-4">
-            <div>
-              <h2 className="font-bold">{expense.title}</h2>
-              <p>${expense.price} {expense.category ? `• ${expense.category}` : ""}</p>
-              {expense.date && <p className="text-sm text-muted-foreground">{new Date(expense.date).toLocaleDateString()}</p>}
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={() => handleEdit(expense)}>
-                <Edit2 className="h-4 w-4 mr-2" /> Edit
-              </Button>
-              <Button variant="destructive" onClick={() => deleteExpense(expense._id)}>
-                <Trash2 className="h-4 w-4 mr-2" /> Delete
-              </Button>
-            </div>
-          </Card>
-        ))}
+      <div className="grid grid-cols-3 gap-4 justify-center items-center">
+        {expenses &&
+          Array.isArray(expenses) &&
+          expenses.map((expense) => (
+            <Card
+              key={expense._id}
+              className="flex justify-between items-center p-4"
+            >
+              <div>
+                <h2 className="font-bold">{expense.title}</h2>
+                <p>
+                  ${expense.price}{" "}
+                  {expense.category ? `• ${expense.category}` : ""}
+                </p>
+                {expense.date && (
+                  <p className="text-sm text-muted-foreground">
+                    {new Date(expense.date).toLocaleDateString()}
+                  </p>
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => handleEdit(expense)}>
+                  <Edit2 className="h-4 w-4 mr-2" /> Edit
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => deleteExpense(expense._id)}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" /> Delete
+                </Button>
+              </div>
+            </Card>
+          ))}
       </div>
     </div>
   );

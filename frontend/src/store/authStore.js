@@ -49,6 +49,25 @@ export const useAuthStore = create((set) => ({
     localStorage.removeItem("user");
     set({ user: null });
   },
+  updateUser: async (payload) => {
+    set({ loading: true, error: null });
+    try {
+      const user = JSON.parse(localStorage.getItem("user")) || null;
+      const headers = { "Content-Type": "application/json" };
+      if (user) headers.Authorization = `Bearer ${user.token}`;
+      const res = await fetch("http://localhost:5000/api/auth/profile", {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Update failed");
+      set({ user: data, loading: false });
+      localStorage.setItem("user", JSON.stringify(data));
+    } catch (err) {
+      set({ error: err.message, loading: false });
+    }
+  },
   // Clear error message
   clearError: () => set({ error: null }),
 }));

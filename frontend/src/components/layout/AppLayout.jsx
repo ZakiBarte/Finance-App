@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { ModeToggle } from "../ui/theme-toggle";
@@ -17,8 +17,31 @@ export default function AppLayout({ children }) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  useEffect(() => {
+    // Prevent background scrolling and force a resize when the mobile menu is open.
+    if (mobileOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      // trigger resize for responsive charts/components
+      window.dispatchEvent(new Event("resize"));
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+    // ensure any previous overflow hidden is cleared when closed
+    document.body.style.overflow = "";
+    // trigger resize to allow responsive components (charts) to recalc
+    window.dispatchEvent(new Event("resize"));
+    // no cleanup needed here
+    return () => {};
+  }, [mobileOpen]);
+
   return (
-    <div className="flex min-h-screen bg-background text-foreground">
+    <div
+      className={`flex min-h-screen bg-background text-foreground ${
+        mobileOpen ? "overflow-hidden" : ""
+      }`}
+    >
       {/* Mobile top bar */}
       <div className="w-full md:hidden flex items-center justify-between p-3 bg-card shadow-sm">
         <button
@@ -28,7 +51,7 @@ export default function AppLayout({ children }) {
         >
           <Menu className="h-6 w-6" />
         </button>
-        <h1 className="text-lg font-bold">Finance App</h1>
+        <h1 className="text-lg font-bold">Maareeye App</h1>
         <div className="flex items-center gap-2">
           <ModeToggle />
           <Button variant="ghost" onClick={logout} className="p-2">
@@ -39,7 +62,7 @@ export default function AppLayout({ children }) {
 
       {/* Sidebar desktop */}
       <aside className="w-64 bg-card shadow-md p-4 hidden md:block">
-        <h1 className="text-2xl font-bold mb-6">Finance App</h1>
+        <h1 className="text-2xl font-bold mb-6">Maareeye App</h1>
 
         <nav className="flex flex-col space-y-2">
           {menu.map((item) => (
